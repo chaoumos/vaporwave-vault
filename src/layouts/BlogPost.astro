@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { format } from 'date-fns';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    pubDate: string;
+    heroImage?: string;
+    heroImageAlt?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<Layout title={frontmatter.title} description={frontmatter.description}>
+  <article class="prose dark:prose-invert max-w-3xl mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-4">{frontmatter.title}</h1>
+    <p class="text-gray-500 mb-2">
+      Published: {format(new Date(frontmatter.pubDate), 'MMMM dd, yyyy')}
+    </p>
+    <p class="text-gray-600 dark:text-gray-400 mb-6">{frontmatter.description}</p>
+
+    {frontmatter.heroImage && (
+      <img src={frontmatter.heroImage} alt={frontmatter.heroImageAlt} class="rounded-lg shadow-md mb-6" />
+    )}
+
+    <slot />
+  </article>
+</Layout>
